@@ -3,8 +3,9 @@ name: Deploy Github Pages
 on:
   push:
     branches:
-      - main  # Set a branch to deploy
-
+      - main
+  schedule:
+    - cron: "22 22 * * *"
 jobs:
   deploy:
     runs-on: ubuntu-18.04
@@ -21,7 +22,7 @@ jobs:
           # extended: true
 
       - name: Build
-        run: hugo --minify
+        run: cd site && hugo --minify
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
