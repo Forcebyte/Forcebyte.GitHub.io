@@ -4,7 +4,7 @@ date: 2021-01-16T23:30:03-05:00
 tags:
     - homelab
     - proxmox
-draft: true
+draft: false
 ---
 
 
