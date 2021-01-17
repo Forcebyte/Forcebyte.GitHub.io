@@ -1,5 +1,5 @@
 ---
-title: "ShikataLab v1 [Part 1]: Choices"
+title: "ShikataLab v1 [Part 1]: Overarching Choises"
 date: 2021-01-16T23:30:03-05:00
 tags:
     - homelab
@@ -91,6 +91,6 @@ Cons:
 
 With all that said, I came to the decision to use ProxMox as my Homelab platform due to its simplicity and resource-light virtualization layer
 
-![HomeLab Pic](/assets/2021-16-1-shikata-homelab-1/homelab-pic.png)
+![HomeLab Pic](/assets/2021-16-01-shikata-homelab-1/homelab-pic.png)
 
 Setup and discussion will be in the next post
