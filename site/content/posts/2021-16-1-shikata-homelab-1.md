@@ -93,3 +93,4 @@ With all that said, I came to the decision to use ProxMox as my Homelab platform
 
 ![HomeLab Pic](/assets/2021-16-1-shikata-homelab-1/homelab-pic.png)
 
+Setup and discussion will be in the next post
