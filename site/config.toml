@@ -3,7 +3,7 @@ languageCode = "en-us"
 title = "'That' badly designed HomeLab"
 theme = "cactus"
 copyright = "You" # cactus will use title if copyright is not set
-googleAnalytics = "G-YWEML60XXE"
+googleAnalytics = "UA-187534005-1"
 
 
 # summaryLength = 2
@@ -41,11 +41,11 @@ weight = 4
   googleAnalyticsAsync = true # use asynchronous tracking. Synchronous tracking by default
 
   # Home page settings
-  description = "This is a sample 'blog' I attempt to maintain in my free time with some various helpful information about my HomeLab, studies, and various learnings in my position as a Site Reliability Engineer."
+  description = "This is a WIP blog I attempt to maintain in my free time with some various helpful information about my HomeLab, studies, and various learnings in my position as a Site Reliability Engineer."
   mainSection = "posts" # your main section
   showAllPostsOnHomePage = true # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
-  tagsOverview = true # show tags overview by default.
+  tagsOverview = false # show tags overview by default.
   showProjectsList = true # show projects list by default (if projects data file exists).
   projectsUrl = "https://github.com/forcebyte" # title link for projects list
 
