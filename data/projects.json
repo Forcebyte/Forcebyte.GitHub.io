@@ -1,9 +1,0 @@
-{
-    "list": [
-        {
-            "name":"Pi-Hole Auto-DNS Updater",
-            "url":"https://github.com/Forcebyte/PiHole-DNSUpdater",
-            "desc":"A fast, simple & powerful blog framework"
-        }
-    ]
-}
