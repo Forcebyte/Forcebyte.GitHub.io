@@ -3,7 +3,12 @@
         {
             "name":"Pi-Hole Auto-DNS Updater",
             "url":"https://github.com/Forcebyte/PiHole-DNSUpdater",
-            "desc":"A fast, simple & powerful blog framework"
+            "desc":"A simplistic Homelab-oriented DNS archival tool for maintaining individual records"
+        },
+        {
+            "name":"Zoom Management Reporter",
+            "url":"https://github.com/Forcebyte/Zoom-MeetingHistory-Exporter",
+            "desc":"A fast, simple meeting exporter to obtain call history + Time under a Zoom organization"
         }
     ]
 }
