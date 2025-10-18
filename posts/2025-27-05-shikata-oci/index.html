@@ -1,0 +1,217 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>ShikataLab v2 - A Simple-Interfaced Homelab to save me time homelabbing stuff | 'That' badly designed HomeLab</title><meta name=description content="This is a WIP blog I attempt to maintain in my free time with some various helpful information about my HomeLab, studies, and various learnings in my position as a Site Reliability Engineer."><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="all,follow"><meta name=googlebot content="index,follow,snippet,archive"><meta property="og:title" content="ShikataLab v2 - A Simple-Interfaced Homelab to save me time homelabbing stuff"><meta property="og:description" content="There are a few small things I host in my homelab, most of these are some easy to utilize tools that make my life and others in my friend group easier overall, these include, but are not limited to:
+ A Readarr and Calibre-Web service that allows me to manage a eBook library using .epubs I have online A AdGuard DNS endpoint with scraping and logging disabled, to reduce tracking from upstream AdGuard DNS servers (this is a bit flawed, as AdGuard DNS has a fairly okay privacy policy overall, but its still a nice-to-have to be able to customize some special DNS blocking for social media trackers or specific bad habits I want to avoid (i."><meta property="og:type" content="article"><meta property="og:url" content="https://forcebyte.github.io/posts/2025-27-05-shikata-oci/"><meta name=twitter:card content="summary"><meta name=twitter:title content="ShikataLab v2 - A Simple-Interfaced Homelab to save me time homelabbing stuff"><meta name=twitter:description content="There are a few small things I host in my homelab, most of these are some easy to utilize tools that make my life and others in my friend group easier overall, these include, but are not limited to:
+ A Readarr and Calibre-Web service that allows me to manage a eBook library using .epubs I have online A AdGuard DNS endpoint with scraping and logging disabled, to reduce tracking from upstream AdGuard DNS servers (this is a bit flawed, as AdGuard DNS has a fairly okay privacy policy overall, but its still a nice-to-have to be able to customize some special DNS blocking for social media trackers or specific bad habits I want to avoid (i."><link rel=stylesheet href=https://forcebyte.github.io/css/style-dark.css><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script><script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]--><link rel=icon type=image/png href=https://forcebyte.github.io/images/favicon.ico><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-187534005-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body class="max-width mx-auto px3 ltr"><div class="content index py4"><div id=header-post><a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a><a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a><a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast');" style=display:none><i class="fas fa-chevron-up fa-lg"></i></a><span id=menu><span id=nav><ul><li><a href=/>Home</a></li><li><a href=/posts>Writings</a></li><li><a href=/tags>Tags</a></li><li><a href=/about>About</a></li></ul></span><br><span id=actions><ul><li><a class=icon href=https://forcebyte.github.io/about/><i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li><li><a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast');"><i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li><li><a class=icon href=#><i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li></ul><span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span></span><br><div id=share style=display:none><ul><li><a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f"><i class="fab fa-facebook" aria-hidden=true></i></a></li><li><a class=icon href="https://twitter.com/share?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&text=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-twitter" aria-hidden=true></i></a></li><li><a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-linkedin" aria-hidden=true></i></a></li><li><a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&is_video=false&description=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-pinterest" aria-hidden=true></i></a></li><li><a class=icon href="mailto:?subject=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff&body=Check out this article: https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f"><i class="fas fa-envelope" aria-hidden=true></i></a></li><li><a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-get-pocket" aria-hidden=true></i></a></li><li><a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-reddit" aria-hidden=true></i></a></li><li><a class=icon href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-stumbleupon" aria-hidden=true></i></a></li><li><a class=icon href="http://digg.com/submit?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-digg" aria-hidden=true></i></a></li><li><a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&name=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff&description=There%20are%20a%20few%20small%20things%20I%20host%20in%20my%20homelab%2c%20most%20of%20these%20are%20some%20easy%20to%20utilize%20tools%20that%20make%20my%20life%20and%20others%20in%20my%20friend%20group%20easier%20overall%2c%20these%20include%2c%20but%20are%20not%20limited%20to%3a%0a%20A%20Readarr%20and%20Calibre-Web%20service%20that%20allows%20me%20to%20manage%20a%20eBook%20library%20using%20.epubs%20I%20have%20online%20A%20AdGuard%20DNS%20endpoint%20with%20scraping%20and%20logging%20disabled%2c%20to%20reduce%20tracking%20from%20upstream%20AdGuard%20DNS%20servers%20%28this%20is%20a%20bit%20flawed%2c%20as%20AdGuard%20DNS%20has%20a%20fairly%20okay%20privacy%20policy%20overall%2c%20but%20its%20still%20a%20nice-to-have%20to%20be%20able%20to%20customize%20some%20special%20DNS%20blocking%20for%20social%20media%20trackers%20or%20specific%20bad%20habits%20I%20want%20to%20avoid%20%28i."><i class="fab fa-tumblr" aria-hidden=true></i></a></li><li><a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&t=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-hacker-news" aria-hidden=true></i></a></li></ul></div><div id=toc><nav id=TableOfContents><ul><li><a href=#the-challenge>The Challenge</a></li><li><a href=#moving-to-oci>Moving to OCI</a></li><li><a href=#setup-and-enablement>Setup and enablement</a><ul><li><a href=#networking>Networking</a></li><li><a href=#node-set-up>Node Set-up</a></li><li><a href=#secret-stores>Secret Stores</a></li><li><a href=#flux-bootstrap-and-configuration>Flux Bootstrap and Configuration</a></li><li><a href=#app-deployments>App Deployments</a></li></ul></li></ul></nav></div></span></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><header><h1 class=posttitle itemprop="name headline">ShikataLab v2 - A Simple-Interfaced Homelab to save me time homelabbing stuff</h1><div class=meta><div class=postdate><time datetime="0001-01-01 00:00:00 +0000 UTC" itemprop=datePublished>0001-01-01</time></div><div class=article-tag><i class="fas fa-tag"></i><a class=tag-link href=/tags/homelab rel=tag>homelab</a>
+,
+<a class=tag-link href=/tags/oci rel=tag>oci</a></div></div></header><div class=content itemprop=articleBody><p>There are a few small things I host in my homelab, most of these are some easy to utilize tools that make my life and others in my friend group easier overall, these include, but are not limited to:</p><ul><li>A <a href=https://github.com/janeczku/calibre-web>Readarr and Calibre-Web service</a> that allows me to manage a eBook library using .epubs I have online</li><li>A AdGuard DNS endpoint with scraping and logging disabled, to reduce tracking from upstream AdGuard DNS servers (this is a bit flawed, as <a href=https://adguard-dns.io/en/privacy.html>AdGuard DNS has a fairly okay privacy policy</a> overall, but its still a nice-to-have to be able to customize some special DNS blocking for social media trackers or specific bad habits I want to avoid (i.e. TikTok, YouTube Shorts, etc)</li><li>Some seedboxes for things I want to host</li></ul><h2 id=the-challenge>The Challenge</h2><p>Up until about 2024, I had this all hosted within Proxmox, a easy to use enterprise hypervisor management platform similar to VMWare, it had a few drawbacks, though, most notably:</p><ol><li>Since I was reliant on a single grid, power outages that would knock my home off the grid would fail; I originally had a fairly robust UPS system (copying Jeff Geerlings design <a href=https://www.jeffgeerling.com/blog/2025/nut-on-my-pi-so-my-servers-dont-die>here</a>) using a network <a href=https://networkupstools.org/>UPS tool caled NUT</a> - but it wasn&rsquo;t as easy to maintain as i&rsquo;d like</li><li>Overall power draw with this was fairly large using the original setup I had with spare servers that I&rsquo;ve obtained at previous employment - I originally reduce this down by shrinking my homelab to fit into a Raspberry Pi 3 Cluster, along with a NUC - then only using the NUC for non-critical services and powering it down when not in use. However, this quickly turned into more of a deterrent for playing around with the homelab, as i&rsquo;d never actually power up the NUC except for some special usecases (e.g. cold storage backup, etc.)</li><li>A good chunk of services i&rsquo;d host started generating a small amount of revenue (mostly from people whom wanted to host a Minecraft server or use my Readarr service outside of my friend group) - I had a bit more pressure to keep the NUC stuff always available and never have it go down</li></ol><p>As such, i started wondering if it was a good idea to move stuff over to an OCI instance; it is <em>very</em> commonly discussed as a defacto good place to host in their free tier, their underlying offering is super interesting, as it allows for fairly powerful Ampere instances to be used for hobbyists (obviously, understanding that it <a href=https://www.reddit.com/r/oraclecloud/comments/pfachp/oracle_account_terminated_after_free_tier_ended/>may be revoked at any time</a>) - I eventually decided to move stuff slowly over to there over the course of a holiday weekend. This explains a bit of what that migration looked like, and decisions and challenges along the way</p><h2 id=moving-to-oci>Moving to OCI</h2><p>Thankfully, I had added a free-tier Ampere instance configured already, using a simple TF workspace set up around 2 years ago to set things up, and it already had an Ampere instance and Intel instance configured:</p><p><img src=/assets/2025-27-05-shikata-oci/setup-1.png alt="HomeLab - TF"></p><p>This originally had all my services mirrored to <a href=https://github.com/portainer/portainer>Portainer</a> using Docker Swarm, but I found it annoying to have to manage things like <a href=https://dockerswarm.rocks/swarm-or-kubernetes/>Traefik network overlays and proxies</a>; so I decided to try and roll it into Kubernetes like in every other configuration I had available; I figured it may be annoying to set up - but it beats the troubleshooting I&rsquo;ve had to do in the past</p><h2 id=setup-and-enablement>Setup and enablement</h2><h3 id=networking>Networking</h3><p>First things first, setting up the network within the OCI instances, I want to ensure that there is still some sort of enabled networking capabilities between instances, this is <em>very</em> simple, outbound setup, a single VCN (Virtual Cloud Network) with a routing table to an internet Gateway, such that interconnectivity between nodes isnt impeded, and internet access can be restricted via a security group within the network like so:</p><p><img src=/assets/2025-27-05-shikata-oci/setup-2.png alt="HomeLab - Network Flow"></p><p>This will also assert that the primary VNIC of the instances is the private facing ones. Along with the route table, it will allow all outbound traffic to <em>prefer</em> routing to different nodes, when available, and otherwise egress through the internet:</p><p><img src=/assets/2025-27-05-shikata-oci/setup-3.png alt="HomeLab - Network Flow"></p><p><img src=/assets/2025-27-05-shikata-oci/setup-4.png alt="HomeLab - Network Flow"></p><h3 id=node-set-up>Node Set-up</h3><p>Once completed, I can easily set up K3s (a lightweight distribution of K8s) to try and get things going. I did this the lazy way, and will likely change this to use an externalized datastore (since OCI does support databases, but just not the versions that k3s does)</p><p>I could do this via Ansible, but alas, I am a lazy man:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>curl -sfL https://get.k3s.io | sh -
+
+<span style=color:#75715e># After complete, use this master token for other nodes</span>
+cat /var/lib/rancher/k3s/server/token
+</code></pre></div><p>This will give us a master node to execute workloads on, using the same script, installing on separate nodes can be done like so, (note, the node IP should be the private IP as seen in the OCI Console or via ifconfig, do not use the public IP)</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>curl -sfL https://get.k3s.io | K3S_URL<span style=color:#f92672>=</span>https://10.0.1.216:6443 K3S_TOKEN<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>cat /var/lib/rancher/k3s/server/token<span style=color:#66d9ef>)</span> sh -
+</code></pre></div><p>This will give you two nodes that we can set up further configs on:</p><p><img src=/assets/2025-27-05-shikata-oci/setup-5.png alt="HomeLab - Node Setup"></p><h3 id=secret-stores>Secret Stores</h3><p>Before I continue; this is not exactly the best way to go about this - ideally you <em>should</em> use a Secrets Provider, the free tier of OCI&rsquo;s secrets management solution is a good method alongside the <a href=https://external-secrets.io/v0.4.4/provider-oracle-vault/>external secrets operator</a> is probably the best way to do this - but alas, I am a lazy man.</p><p>In our situation, we are going to configure a Service Account for Terraform to use to add a flux bootstrap, this will allow us to securely set K8s secrets without manually adding them, and allow them to be updated from a single point of reference (that is, Terraform itself) - this is not ideal, but it works</p><p>To start, we&rsquo;ll use a free-tier <a href=https://developer.hashicorp.com/terraform/cloud-docs/overview#free-and-paid-plans>HCP Terraform account</a> to create and enable remote terraform VCS integration - in this, we created a workspace secret per token we want to add to k3s like so:</p><p><img src=/assets/2025-27-05-shikata-oci/setup-6.png alt="HomeLab - Secret Setup"></p><p>Then, with the VCS integration we added; I can configure a provider.tf file with my local K8s API secret and secret to store secrets:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tf data-lang=tf><span style=color:#66d9ef>provider</span> <span style=color:#e6db74>&#34;kubernetes&#34;</span> {
+  <span style=color:#a6e22e>host</span>                   = var.<span style=color:#a6e22e>k8s_api_server</span>
+  <span style=color:#a6e22e>token</span>                  = var.<span style=color:#a6e22e>k8s_api_token</span>
+  <span style=color:#a6e22e>insecure</span>               = <span style=color:#66d9ef>true</span><span style=color:#75715e> # certificate is valid for 10.0.1.216, 10.43.0.1, 127.0.0.1, ::1, not xyz
+</span><span style=color:#75715e></span>}
+</code></pre></div><p>I can then create a &lsquo;godmode&rsquo; token for terraform to apply various resources:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ServiceAccount</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>tfc</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
+<span style=color:#f92672>secrets</span>:
+  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>tfc-token</span>
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Secret</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>tfc-token</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
+  <span style=color:#f92672>annotations</span>:
+    <span style=color:#f92672>kubernetes.io/service-account.name</span>: <span style=color:#ae81ff>tfc</span>
+<span style=color:#f92672>type</span>: <span style=color:#ae81ff>kubernetes.io/service-account-token</span>
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>rbac.authorization.k8s.io/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterRole</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#75715e># Name the role &#34;godmode&#34; for clarity</span>
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>godmode</span>
+<span style=color:#f92672>rules</span>:
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;apps&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;batch&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;extensions&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;networking.k8s.io&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;storage.k8s.io&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;rbac.authorization.k8s.io&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;apiextensions.k8s.io&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+  - <span style=color:#f92672>apiGroups</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>resources</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+    <span style=color:#f92672>verbs</span>: [<span style=color:#e6db74>&#34;*&#34;</span>]
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>rbac.authorization.k8s.io/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterRoleBinding</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>tfe-godmode-binding</span>
+<span style=color:#f92672>subjects</span>:
+  - <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ServiceAccount</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>tfc</span>
+    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default </span> <span style=color:#75715e># Change this to the namespace where your service account resides</span>
+<span style=color:#f92672>roleRef</span>:
+  <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterRole</span>
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>godmode</span>
+  <span style=color:#f92672>apiGroup</span>: <span style=color:#ae81ff>rbac.authorization.k8s.io</span>
+</code></pre></div><p>Once applied (via kubectl) we can then grab the secret for use in TFC:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>k get secret -o yaml tfc-token -n default
+</code></pre></div><p>Add this to TFC&rsquo;s secrets, and then I can then configure secrets via a simple terraform &lsquo;resource&rsquo; like so:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tf data-lang=tf><span style=color:#66d9ef>resource</span> <span style=color:#e6db74>&#34;kubernetes_secret&#34;</span> <span style=color:#e6db74>&#34;traefik_github_oauth-kubesystem&#34;</span> {
+  <span style=color:#a6e22e>metadata</span> {
+    <span style=color:#a6e22e>name</span>      = <span style=color:#e6db74>&#34;github-oauth-secret&#34;</span>
+    <span style=color:#a6e22e>namespace</span> = <span style=color:#e6db74>&#34;kube-system&#34;</span>
+  }
+<span style=color:#66d9ef>
+</span><span style=color:#66d9ef>  data</span> <span style=color:#f92672>=</span> {
+    <span style=color:#e6db74>&#34;clientId&#34;</span> <span style=color:#f92672>=</span> var.<span style=color:#a6e22e>github_oauth_client_id</span>
+    <span style=color:#e6db74>&#34;clientSecret&#34;</span> <span style=color:#f92672>=</span> var.<span style=color:#a6e22e>github_oauth_client_secret</span>
+  }
+
+  <span style=color:#a6e22e>type</span> = <span style=color:#e6db74>&#34;Opaque&#34;</span>
+}
+</code></pre></div><p><img src=/assets/2025-27-05-shikata-oci/setup-7.png alt="HomeLab - Secret Setup"></p><p>Now that its completed, we can then start working on bootstrapping - whenever we want to place secrets in the cluster in the future (for example, an API key or oAuth key) - we can use Terraform to place and manage the secret accordingly to prevent drift</p><h3 id=flux-bootstrap-and-configuration>Flux Bootstrap and Configuration</h3><p>Again, fairly simple to configure and utilize, Flux actually has a bootstrap configuration that is supported via Terraform enterprise, which is convinient to use in this specific usecase, as it lets us simplify the setup and update process quite a bit</p><p>first, configure the provider to point to the token</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tf data-lang=tf><span style=color:#66d9ef>provider</span> <span style=color:#e6db74>&#34;flux&#34;</span> {
+    <span style=color:#a6e22e>kubernetes</span> = {
+        <span style=color:#a6e22e>host</span>                   = var.<span style=color:#a6e22e>k8s_api_server</span>
+        <span style=color:#a6e22e>token</span>                  = var.<span style=color:#a6e22e>k8s_api_token</span>
+    }
+    <span style=color:#a6e22e>git</span> = {
+        <span style=color:#a6e22e>url</span> = <span style=color:#e6db74>&#34;https://github.com/forcebyte/shikata-homelab-v2.git&#34;</span>
+        <span style=color:#a6e22e>http</span> = {
+            <span style=color:#a6e22e>username</span> = <span style=color:#e6db74>&#34;git&#34;</span><span style=color:#75715e> # This can be any string when using a personal access token
+</span><span style=color:#75715e></span>            <span style=color:#a6e22e>password</span> = var.<span style=color:#a6e22e>github_token</span>
+        }
+    }
+}
+</code></pre></div><p>And add the bootstrap like so:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tf data-lang=tf><span style=color:#66d9ef>resource</span> <span style=color:#e6db74>&#34;flux_bootstrap_git&#34;</span> <span style=color:#e6db74>&#34;this&#34;</span> {
+  <span style=color:#a6e22e>embedded_manifests</span> = <span style=color:#66d9ef>true</span>
+  <span style=color:#a6e22e>path</span>               = <span style=color:#e6db74>&#34;k8s/apps&#34;</span>
+  <span style=color:#a6e22e>interval</span>           = <span style=color:#e6db74>&#34;30s&#34;</span>
+}
+</code></pre></div><p>Once configured, Flux will automatically deploy the underlying controller to sync deployments</p><h3 id=app-deployments>App Deployments</h3><p>Now that we have everything configured, we can simply configure a deployment, the easiest first thing would be a github oauth proxy - as I want to ensure that connecting to applications is done using a identity provider (primarily to remove brute-force attempts on the stuff I deploy publically)</p><p>To do this, configure a deployment within the GitHub repository like so:</p><pre><code>.
+├── LICENSE
+├── README.md
+├── k8s
+│   ├── apps
+│   │   ├── github-oauth
+│   │   │   ├── deploy.yaml
+│   │   │   └── kustomization.yaml
+│   ├── init.yaml
+│   └── kustomization.yaml
+└── terraform
+    ├── flux.tf
+    ├── github-oauth.tf
+    ├── providers.tf
+    └── variables.tf
+</code></pre><p>Within the k8s/apps folder, create the standard Kustomization and deployment YAML files, like so</p><ul><li><p><em>kustomization.yaml</em></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>kustomize.config.k8s.io/v1beta1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Kustomization</span>
+<span style=color:#f92672>resources</span>:
+  - <span style=color:#ae81ff>deploy.yaml</span>
+</code></pre></div></li><li><p><em>deploy.yaml</em></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>github-oauth-server</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>1</span>
+  <span style=color:#f92672>selector</span>:
+    <span style=color:#f92672>matchLabels</span>:
+      <span style=color:#f92672>app</span>: <span style=color:#ae81ff>github-oauth-server</span>
+  <span style=color:#f92672>template</span>:
+    <span style=color:#f92672>metadata</span>:
+      <span style=color:#f92672>labels</span>:
+        <span style=color:#f92672>app</span>: <span style=color:#ae81ff>github-oauth-server</span>
+    <span style=color:#f92672>spec</span>:
+      <span style=color:#f92672>containers</span>:
+        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>github-oauth-server</span>
+          <span style=color:#f92672>image</span>: <span style=color:#ae81ff>muxiu1997/traefik-github-oauth-server:latest</span>
+          <span style=color:#f92672>env</span>:
+            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>GITHUB_OAUTH_CLIENT_ID</span>
+              <span style=color:#f92672>valueFrom</span>:
+                <span style=color:#f92672>secretKeyRef</span>:
+                  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>github-oauth-secret</span>
+                  <span style=color:#f92672>key</span>: <span style=color:#ae81ff>clientId</span>
+            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>GITHUB_OAUTH_CLIENT_SECRET</span>
+              <span style=color:#f92672>valueFrom</span>:
+                <span style=color:#f92672>secretKeyRef</span>:
+                  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>github-oauth-secret</span>
+                  <span style=color:#f92672>key</span>: <span style=color:#ae81ff>clientSecret</span>
+            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>API_BASE_URL</span>
+              <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;https://github-oauth.forcebyte.org/&#34;</span>
+            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>DEBUG_MODE</span>
+              <span style=color:#f92672>value</span>: <span style=color:#e6db74>&#34;true&#34;</span>
+          <span style=color:#f92672>ports</span>:
+            - <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>80</span>
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>github-oauth-server</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>selector</span>:
+    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>github-oauth-server</span>
+  <span style=color:#f92672>ports</span>:
+    - <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
+      <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+      <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>80</span>
+  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>ClusterIP</span>
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>traefik.io/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>IngressRoute</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>github-oauth-server</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
+  <span style=color:#f92672>annotations</span>:
+    <span style=color:#f92672>external-dns.alpha.kubernetes.io/target</span>: <span style=color:#ae81ff>github-oauth.forcebyte.org</span>
+    <span style=color:#f92672>kubernetes.io/ingress.class</span>: <span style=color:#ae81ff>traefik</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>entryPoints</span>:
+    - <span style=color:#ae81ff>web</span>
+  <span style=color:#f92672>routes</span>:
+    - <span style=color:#f92672>match</span>: <span style=color:#ae81ff>Host(`github-oauth.forcebyte.org`) </span> <span style=color:#75715e># Replace with your domain</span>
+      <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Rule</span>
+      <span style=color:#f92672>services</span>:
+        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>github-oauth-server</span>
+          <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+---
+<span style=color:#75715e># Middleware for GitHub OAuth</span>
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>traefik.io/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Middleware</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>github-oauth</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>plugin</span>:
+    <span style=color:#f92672>github-oauth</span>:
+      <span style=color:#f92672>logLevel</span>: <span style=color:#ae81ff>debug</span>
+      <span style=color:#f92672>apiBaseUrl</span>: <span style=color:#e6db74>&#34;https://github-oauth.forcebyte.org&#34;</span>
+      <span style=color:#f92672>whitelist</span>:
+        <span style=color:#f92672>logins</span>:
+          - <span style=color:#e6db74>&#34;Forcebyte&#34;</span>  <span style=color:#75715e># Replace with your GitHub username</span>
+</code></pre></div></li></ul></div></article><div class=blog-post-comments><div id=disqus_thread><script type=text/javascript>(function(){var dsq=document.createElement('script');dsq.type='text/javascript';dsq.async=true;var disqus_shortname='\u0027That\u0027 badly designed HomeLab';dsq.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div><div id=footer-post-container><div id=footer-post><div id=nav-footer style=display:none><ul><li><a href=/>Home</a></li><li><a href=/posts>Writings</a></li><li><a href=/tags>Tags</a></li><li><a href=/about>About</a></li></ul></div><div id=toc-footer style=display:none><nav id=TableOfContents><ul><li><a href=#the-challenge>The Challenge</a></li><li><a href=#moving-to-oci>Moving to OCI</a></li><li><a href=#setup-and-enablement>Setup and enablement</a><ul><li><a href=#networking>Networking</a></li><li><a href=#node-set-up>Node Set-up</a></li><li><a href=#secret-stores>Secret Stores</a></li><li><a href=#flux-bootstrap-and-configuration>Flux Bootstrap and Configuration</a></li><li><a href=#app-deployments>App Deployments</a></li></ul></li></ul></nav></div><div id=share-footer style=display:none><ul><li><a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f"><i class="fab fa-facebook fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://twitter.com/share?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&text=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-twitter fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-linkedin fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&is_video=false&description=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-pinterest fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="mailto:?subject=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff&body=Check out this article: https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f"><i class="fas fa-envelope fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-get-pocket fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-reddit fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-stumbleupon fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://digg.com/submit?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&title=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-digg fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&name=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff&description=There%20are%20a%20few%20small%20things%20I%20host%20in%20my%20homelab%2c%20most%20of%20these%20are%20some%20easy%20to%20utilize%20tools%20that%20make%20my%20life%20and%20others%20in%20my%20friend%20group%20easier%20overall%2c%20these%20include%2c%20but%20are%20not%20limited%20to%3a%0a%20A%20Readarr%20and%20Calibre-Web%20service%20that%20allows%20me%20to%20manage%20a%20eBook%20library%20using%20.epubs%20I%20have%20online%20A%20AdGuard%20DNS%20endpoint%20with%20scraping%20and%20logging%20disabled%2c%20to%20reduce%20tracking%20from%20upstream%20AdGuard%20DNS%20servers%20%28this%20is%20a%20bit%20flawed%2c%20as%20AdGuard%20DNS%20has%20a%20fairly%20okay%20privacy%20policy%20overall%2c%20but%20its%20still%20a%20nice-to-have%20to%20be%20able%20to%20customize%20some%20special%20DNS%20blocking%20for%20social%20media%20trackers%20or%20specific%20bad%20habits%20I%20want%20to%20avoid%20%28i."><i class="fab fa-tumblr fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fforcebyte.github.io%2fposts%2f2025-27-05-shikata-oci%2f&t=ShikataLab%20v2%20-%20A%20Simple-Interfaced%20Homelab%20to%20save%20me%20time%20homelabbing%20stuff"><i class="fab fa-hacker-news fa-lg" aria-hidden=true></i></a></li></ul></div><div id=actions-footer><a id=menu class=icon href=# onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden=true></i>Menu</a>
+<a id=toc class=icon href=# onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden=true></i>TOC</a>
+<a id=share class=icon href=# onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden=true></i>share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden=true></i>Top</a></div></div></div><footer id=footer><div class=footer-left>Copyright &copy; 2025 You</div><div class=footer-right><nav><ul><li><a href=/>Home</a></li><li><a href=/posts>Writings</a></li><li><a href=/tags>Tags</a></li><li><a href=/about>About</a></li></ul></nav></div></footer></div></body><link rel=stylesheet href=/lib/font-awesome/css/all.min.css><script src=/lib/jquery/jquery.min.js></script><script src=/js/main.js></script></html>
