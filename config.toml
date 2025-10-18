@@ -2,7 +2,7 @@ baseURL = "https://forcebyte.github.io"
 languageCode = "en-us"
 title = "'That' badly designed HomeLab"
 theme = "cactus"
-copyright = "You" # cactus will use title if copyright is not set
+copyright = "Firehaven" # cactus will use title if copyright is not set
 googleAnalytics = "UA-187534005-1"
 
 
@@ -70,4 +70,4 @@ weight = 4
     link = "https://www.linkedin.com/in/patrick-turney-049a79158"
   [[params.social]]
     name = "email"
-    link = "example@example.com"  # no need for "mailto:" in the head
+    link = "hyperpatrick@gmail.com"  # no need for "mailto:" in the head
