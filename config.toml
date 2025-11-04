@@ -3,7 +3,7 @@ languageCode = "en-us"
 title = "'That' badly designed HomeLab"
 theme = "cactus"
 copyright = "Firehaven" # cactus will use title if copyright is not set
-googleAnalytics = "UA-187534005-1"
+googleAnalytics = "G-9CNRZ27N2Y"  # Replace with your actual GA4 Measurement ID
 
 
 # summaryLength = 2
