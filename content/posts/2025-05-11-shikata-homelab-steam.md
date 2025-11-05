@@ -1,6 +1,6 @@
 ---
 title: "ShikataLab v2 - [Part 2]: ARM and Steam-Server Support"
-date: 2025-05-11T11:30:03-05:00
+date: 2025-11-05T11:30:03-05:00
 tags:
     - homelab
     - oci
@@ -23,13 +23,13 @@ After deliberation, and heavy inspiration from [this Github repo from zThundy](h
 
 Notoriously, Benchmarking comparatively for a few example games show a trend, most underlying games straight up will not start with QEMU emulation - I was encountering this with many underlying programs I attempted to emulate using QEMU - this caused me quite a few challenges in general, and made the underlying spin-up of random apps and services impossible to do:
 
-![alt text](../assets/2025-27-05-shikata-cs2/setup-1.png)
+![alt text](/assets/2025-27-05-shikata-cs2/setup-1.png)
 
 2. Performance
 
 Overall; in terms of complexity to performance,  Box typically beats QEMU out of the water for similar x86_64 coverage space:
 
-![alt text](../assets/2025-27-05-shikata-cs2/setup-2.png)
+![alt text](/assets/2025-27-05-shikata-cs2/setup-2.png)
 
 
 This generally means that performance within the environment is stable throughout, and that comparitive to 3D games (where QEMU drops off of a cliff) - Box64 is the only reasonable alternative with good FPS
@@ -151,7 +151,7 @@ fi
 
 This will run the update like so, and restart CS2:
 
-![alt text](../assets/2025-27-05-shikata-cs2/setup-3.png)
+![alt text](/assets/2025-27-05-shikata-cs2/setup-3.png)
 
 
 lastly, we add the following to a cron
@@ -162,4 +162,4 @@ lastly, we add the following to a cron
 
 During the install, you'll be able to see a general command running for a good chunk of time like so:
 
-![alt text](../assets/2025-27-05-shikata-cs2/setup-4.png)
+![alt text](/assets/2025-27-05-shikata-cs2/setup-4.png)
