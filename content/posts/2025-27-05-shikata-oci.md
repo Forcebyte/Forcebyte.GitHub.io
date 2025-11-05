@@ -1,6 +1,6 @@
 ---
-title: "ShikataLab v2 - A Simple-Interfaced Homelab to save me time homelabbing stuff"
-date: 2025-27-05T11:30:03-05:00
+title: "ShikataLab v2 - A Re-done Homelab to save me time debugging"
+date: 2025-05-27T11:30:03-05:00
 tags:
     - homelab
     - oci
