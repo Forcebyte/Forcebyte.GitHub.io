@@ -142,7 +142,7 @@ else
         echo "Updating....."
         # Stop CS2, and update
         systemctl stop cs2
-        /home/steam/steamclient/linux32/steamcmd +login anonymous +force_install_dir /home/steam/cs2 +app_update 730 validate
+        /home/steam/steamclient/linux32/steamcmd +force_install_dir /home/steam/cs2 +login anonymous +app_update 730 validate
         # Update the build number, then start
         echo $LATESTBUILD > /home/steam/.cs2_versions/currentVersion.txt
         systemctl start cs2
