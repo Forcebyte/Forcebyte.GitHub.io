@@ -8,7 +8,7 @@ tags:
 draft: true
 ---
 
-I'm writing this from Seoul, and my homelab is in Toronto. For the last week and a half, most of the work on it has been done by an AI agent — Meta's Muse, which I've taken to calling Jett — while I send it messages from my phone between meals. This is how that's set up, what it's actually done, and the parts I'm still uneasy about.
+I'm in Korea for a couple of weeks, and I figured it was a good excuse to finally polish up the homelab back in Toronto. The catch: you can't exactly do homelab work from a hotel room in Seoul. So most of the actual work has been done by an AI agent — Meta's Muse, which I've taken to calling Jett. I send it messages from my phone between meals, it does the work, I review the diffs. This is how that's set up, what it's actually done, and the parts I'm still uneasy about.
 
 ## How it works
 
