@@ -6,7 +6,6 @@ tags:
     - oci
     - k3s
     - storage
-draft: true
 ---
 
 Oracle's free tier is generous with compute and weirdly stingy with disk, and that combination has shaped every storage decision in my homelab. This is the data story: what the limits actually are, the three ways I worked around them, and what's still missing.
