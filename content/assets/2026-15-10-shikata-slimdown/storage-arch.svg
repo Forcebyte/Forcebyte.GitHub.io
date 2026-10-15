@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="560" viewBox="0 0 860 560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <rect width="860" height="560" rx="12" fill="#1a1f2e"/>
+  <text x="430" y="38" text-anchor="middle" font-size="22" font-weight="600" fill="#dfe6f3">Storage on azamilab0</text>
+
+  <!-- top box -->
+  <rect x="280" y="66" width="300" height="56" rx="8" fill="#232b3d" stroke="#5a6a8a" stroke-width="1.5"/>
+  <text x="430" y="89" text-anchor="middle" font-size="15" font-weight="600" fill="#dfe6f3">k3s pods</text>
+  <text x="430" y="109" text-anchor="middle" font-size="13" fill="#9aa7c2">claim volumes via PersistentVolumeClaims</text>
+
+  <!-- fan-out arrows -->
+  <line x1="430" y1="122" x2="150" y2="178" stroke="#5a6a8a" stroke-width="1.5"/>
+  <line x1="430" y1="122" x2="430" y2="178" stroke="#5a6a8a" stroke-width="1.5"/>
+  <line x1="430" y1="122" x2="710" y2="178" stroke="#5a6a8a" stroke-width="1.5"/>
+  <polygon points="150,178 142,168 158,168" fill="#5a6a8a"/>
+  <polygon points="430,178 422,168 438,168" fill="#5a6a8a"/>
+  <polygon points="710,178 702,168 718,168" fill="#5a6a8a"/>
+
+  <!-- storageclass boxes -->
+  <rect x="30" y="178" width="240" height="66" rx="8" fill="#232b3d" stroke="#7aa2f7" stroke-width="2"/>
+  <text x="150" y="203" text-anchor="middle" font-size="15" font-weight="600" fill="#7aa2f7">local-path</text>
+  <text x="150" y="224" text-anchor="middle" font-size="13" fill="#9aa7c2">default · k3s built-in</text>
+
+  <rect x="310" y="178" width="240" height="66" rx="8" fill="#232b3d" stroke="#9ece6a" stroke-width="2"/>
+  <text x="430" y="203" text-anchor="middle" font-size="15" font-weight="600" fill="#9ece6a">local-path-mysqlfs</text>
+  <text x="430" y="224" text-anchor="middle" font-size="13" fill="#9aa7c2">custom provisioner</text>
+
+  <rect x="590" y="178" width="240" height="66" rx="8" fill="#232b3d" stroke="#e0af68" stroke-width="2"/>
+  <text x="710" y="203" text-anchor="middle" font-size="15" font-weight="600" fill="#e0af68">local-path-oci</text>
+  <text x="710" y="224" text-anchor="middle" font-size="13" fill="#9aa7c2">custom provisioner</text>
+
+  <!-- down arrows -->
+  <line x1="150" y1="244" x2="150" y2="296" stroke="#7aa2f7" stroke-width="1.5"/>
+  <line x1="430" y1="244" x2="430" y2="296" stroke="#9ece6a" stroke-width="1.5"/>
+  <line x1="710" y1="244" x2="710" y2="296" stroke="#e0af68" stroke-width="1.5"/>
+  <polygon points="150,296 142,286 158,286" fill="#7aa2f7"/>
+  <polygon points="430,296 422,286 438,286" fill="#9ece6a"/>
+  <polygon points="710,296 702,286 718,286" fill="#e0af68"/>
+
+  <!-- backend boxes -->
+  <rect x="30" y="296" width="240" height="150" rx="8" fill="#232b3d" stroke="#7aa2f7" stroke-width="1.5"/>
+  <text x="150" y="322" text-anchor="middle" font-size="15" font-weight="600" fill="#dfe6f3">Local disk</text>
+  <text x="150" y="345" text-anchor="middle" font-size="12.5" fill="#9aa7c2">/var/lib/rancher/k3s/storage</text>
+  <text x="150" y="368" text-anchor="middle" font-size="12.5" fill="#9aa7c2">149 GB boot volume</text>
+  <text x="150" y="398" text-anchor="middle" font-size="12.5" fill="#7aa2f7">fast · default for everything</text>
+
+  <rect x="310" y="296" width="240" height="150" rx="8" fill="#232b3d" stroke="#9ece6a" stroke-width="1.5"/>
+  <text x="430" y="322" text-anchor="middle" font-size="15" font-weight="600" fill="#dfe6f3">mysqlfs (FUSE)</text>
+  <text x="430" y="345" text-anchor="middle" font-size="12.5" fill="#9aa7c2">/mnt/mysqlfs/k8s</text>
+  <text x="430" y="368" text-anchor="middle" font-size="12.5" fill="#9aa7c2">→ MySQL HeatWave 10.0.1.170</text>
+  <text x="430" y="391" text-anchor="middle" font-size="12.5" fill="#9aa7c2">50 GB · ~3 MB/s writes</text>
+  <text x="430" y="414" text-anchor="middle" font-size="12.5" fill="#9ece6a">slow · cold storage only</text>
+
+  <rect x="590" y="296" width="240" height="150" rx="8" fill="#232b3d" stroke="#e0af68" stroke-width="1.5"/>
+  <text x="710" y="322" text-anchor="middle" font-size="15" font-weight="600" fill="#dfe6f3">rclone mount (FUSE)</text>
+  <text x="710" y="345" text-anchor="middle" font-size="12.5" fill="#9aa7c2">/mnt/oci-bucket/k8s</text>
+  <text x="710" y="368" text-anchor="middle" font-size="12.5" fill="#9aa7c2">→ OCI Object Storage</text>
+  <text x="710" y="391" text-anchor="middle" font-size="12.5" fill="#9aa7c2">BackupServerBucket · 10 GB</text>
+  <text x="710" y="414" text-anchor="middle" font-size="12.5" fill="#e0af68">backups &amp; media, not live DBs</text>
+
+  <text x="430" y="500" text-anchor="middle" font-size="12" font-style="italic" fill="#6b7694">Diagram generated with AI assistance.</text>
+</svg>
