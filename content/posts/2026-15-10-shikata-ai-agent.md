@@ -1,6 +1,6 @@
 ---
 title: "ShikataLab - Letting an AI Agent Run My Homelab While I Travel"
-date: 2026-10-15T02:30:00-05:00
+date: 2026-10-15T01:00:00-05:00
 tags:
     - homelab
     - ai
