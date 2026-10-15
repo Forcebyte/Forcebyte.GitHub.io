@@ -1,6 +1,6 @@
 ---
 title: "ShikataLab - The Data Story: Stretching OCI's Free Tier"
-date: 2026-10-15T14:00:00-05:00
+date: 2026-10-15T02:30:00-05:00
 tags:
     - homelab
     - oci
