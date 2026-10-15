@@ -1,65 +1,138 @@
 ---
-title: "ShikataLab v2.5 - Putting the free-tier box on a diet"
+title: "ShikataLab - The Data Story: Stretching OCI's Free Tier"
 date: 2026-10-15T14:00:00-05:00
 tags:
     - homelab
     - oci
     - k3s
+    - storage
 draft: true
 ---
 
-My homelab lives on a free OCI Ampere instance with 2 vCPUs, and for the last few months it's been sitting at a load average between 4 and 10. Sustained. The kind of load where everything technically works, but `kubectl` takes a second to think about it, and you start wondering which one of your containers is going to fall over first.
+Oracle's free tier is generous with compute and weirdly stingy with disk, and that combination has shaped every storage decision in my homelab. This is the data story: what the limits actually are, the three ways I worked around them, and what's still missing.
 
-I finally got annoyed enough to spend a couple of evenings on it. This is what I did, roughly in the order I did it.
+## The problem: every gigabyte counts
 
-## Finding the hog
+The hard limit is 200GB of boot volume, total, across every instance in the tenancy. My main box (azamilab0, the k3s node) has a 153GB boot volume. The little x86 box has 47GB. That's the whole allowance gone — there's no attaching another block volume later without deleting something first.
 
-First thing I did was look at what was actually eating CPU, and the answer was a little embarrassing: Datadog's system-probe, sitting at around 26% on its own, just polling eBPF things in a loop. On a 2-vCPU box, that's more than a quarter of the machine gone to watching the machine.
+And the boot volume isn't just my data. It's the OS, the container images k3s pulls (k3s pulls a lot of images), logs, all of it. The actual PVC data sitting on local disk is only about 5GB, but the disk pressure never really goes away: image garbage collection, log rotation, and the general background anxiety of watching `df -h`. So the strategy became pretty simple: keep the boot volume for the OS and container images, and push everything else — app data, media, backups — onto the other free-tier resources that would otherwise sit there doing nothing.
 
-I didn't uninstall it — I still want the capability around for the next time I need to dig into something weird — but I trimmed the system-probe modules down to the ones I might actually use someday. There was also a brief moment of confusion about how many agents were running, because I kept seeing old-style `/opt/datadog-agent` paths. Turns out those are just processes inside the DaemonSet pod, not a second host install. One Fleet install on the host, one DaemonSet pod in k3s. Fine.
+The inventory of things going unused:
 
-## The service massacre
+- A MySQL HeatWave instance (MySQL.Free, 1 ECPU, 50GB of storage), completely idle
+- 10GB of Object Storage with one lonely disk image in it
+- The second instance's disk, reachable over the private network
 
-Then I went through both hosts and turned off everything that didn't need to be on. On azamilab0: fwupd, iscsid, multipathd, udisks2, rpcbind, the serial getty, postfix — all disabled. snapd got purged along with every snap it was holding (the lxd, helm, and kubectx snaps), and I replaced helm and kubectx with standalone ARM64 binaries in /usr/local/bin. The standalone docker.io and containerd packages got purged too, since k3s ships its own containerd and they were just sitting there taking up space. aide got purged. And /var/log went from 4.9G to 2.2G with a manual rotation, which felt great for about ten seconds.
+None of these is a filesystem. That was the fun part.
 
-The funny one was packagekit. Masking it made every `apt update` print a GDBus error about the masked unit, because of the hook it leaves in /etc/apt/apt.conf.d/20packagekit. Purging packagekit outright would have dragged software-properties-common and the ubuntu-server metapackage out with it, which felt like too much collateral damage for the sake of tidiness. So I just deleted the hook file. `apt update` runs clean now, and I got to feel clever about it.
+## Tier 1: NFS from the spare box
 
-shikatalab0 is the little 1GB x86 box that mostly runs NFS these days. CrowdSec and its firewall bouncer came off, the canonical-livepatch snap came off, AdGuardHome came off (DNS there is Tailscale-managed anyway, so nothing noticed). I put fail2ban on the SSH port, capped journald at 50M, and added 2GB of swap, because 1GB of RAM in 2026 is a joke and the OOM killer was starting to get ideas.
+shikatalab0 is a 1GB x86 instance whose main job these days is being a disk shelf. It runs an NFSv4-only server exporting `/srv/nfs`, and the k3s node talks to it through the NFS CSI driver, so pods just claim PVCs like normal.
 
-End result on azamilab0: 37G used, 112G free, and the load is merely bad instead of catastrophic.
+Setting it up, on the NFS box:
 
-## k3s tuning
+```bash
+apt install nfs-kernel-server
+mkdir -p /srv/nfs/{k8s,media,backups}
+```
 
-Two small things for k3s itself. I added a weekly image prune timer (Sundays at 03:00 UTC, persistent so it catches up if the box was down) so old container images stop piling up forever, and I lowered the kubelet's image garbage collection thresholds to 75/65 in /etc/rancher/k3s/config.yaml. That second one needs a k3s restart to take effect, and I am not restarting k3s while I'm traveling, so it's sitting there staged for whenever I'm home and feeling brave.
+In `/etc/exports` (my instances all live on 10.0.1.0/24):
 
-## Storage, the cursed part
+```
+/srv/nfs 10.0.1.0/24(rw,sync,no_subtree_check,no_root_squash)
+```
 
-Separate from the diet: I had two free OCI resources sitting idle and it was bothering me. A MySQL HeatWave instance with 50GB of storage doing absolutely nothing, and 10GB of Object Storage with one lonely qcow2 in it. Neither of them is a filesystem, which is the interesting part.
+Then `exportfs -ra`. I run NFSv4 only, which means no messing around with the v3 portmapper and friends — one port, 2049, done.
 
-For MySQL, there's this thing called mysqlfs — a FUSE filesystem that stores files as rows in a MySQL database. I built v1.0.4 for ARM64 from source, set up a systemd mount at /mnt/mysqlfs backed by the HeatWave instance, and got about 3MB/s on writes in testing. It's slow, and I wouldn't keep anything I actually care about on it as the only copy, but for cold storage it's free real estate. The gotchas, for anyone else considering this particular bad idea: the mountpoint has to be empty and owned by the mounting user, you need `user_allow_other` in /etc/fuse.conf, the credentials live in a 600-mode file and nowhere else, and do not NFS-export a FUSE mount. The kernel does not enjoy that.
+On the k3s side, install the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) and add a StorageClass:
 
-For Object Storage, it's rclone with a VFS cache, mounted at /mnt/oci-bucket. Good for backups and media, terrible for lots of small random writes, which is fine because that's not what it's for.
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-shikata
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 10.0.1.233
+  share: /srv/nfs/k8s
+mountOptions:
+  - nfsvers=4.2
+```
 
-Then, because I apparently can't leave well enough alone, I wrote two tiny local-path provisioner deployments following the same pattern as k3s's built-in one, exposing both mounts as StorageClasses: `local-path-mysqlfs` and `local-path-oci`. So now I can claim a dynamic PVC in Kubernetes and have it land in a MySQL database or an S3-compatible bucket. This is deeply silly and I'm a little proud of it.
+One honest admission: this StorageClass isn't in git. I created it by hand and haven't gotten around to Flux-ifying it. It works fine, it's just not declarative yet.
+
+Good for: media libraries, scratch space, anything big and not latency-sensitive. Not for: databases. NFS locking and latency will ruin your day with anything that does real random I/O.
+
+## Tier 2: Object Storage via rclone
+
+OCI's Object Storage has an S3-compatible API, which means rclone speaks to it natively. The setup:
+
+1. In the OCI console, generate a Customer Secret Key (this is what the S3-compatible endpoint authenticates with) and note your Object Storage namespace.
+2. An rclone remote:
+
+```
+[oci]
+type = s3
+provider = OCI
+env_auth = false
+access_key_id = <your access key>
+secret_access_key = <your secret key>
+region = ca-toronto-1
+endpoint = https://<namespace>.compat.objectstorage.ca-toronto-1.oraclecloud.com
+```
+
+3. Mount it with a systemd service, with the VFS cache on so it behaves somewhat like a real filesystem:
+
+```bash
+rclone mount oci:BackupServerBucket /mnt/oci-bucket \
+  --vfs-cache-mode full \
+  --allow-other \
+  --dir-cache-time 5m
+```
+
+The caveats matter here, so I'll be blunt: this is FUSE over S3, not a real filesystem. No real file locking, random writes rewrite the entire object, no hard links, no atomic renames. It's great for backups, archives, and media. It's terrible for live databases or anything doing lots of small writes, and I don't use it for either.
+
+Then the Kubernetes part. k3s ships a local-path provisioner that turns a host directory into dynamic PVCs. I run a second copy of that exact provisioner (same image, `rancher/local-path-provisioner:v0.0.36`) with its config pointed at `/mnt/oci-bucket/k8s` instead, under the provisioner name `rancher.io/local-path-oci`, with a matching StorageClass. Claim a PVC with `storageClassName: local-path-oci` and the data lands in the bucket. I tested the full lifecycle — create, write, delete the PVC, watch the objects get cleaned up.
+
+## Tier 3: the MySQL filesystem (the weird one)
+
+This is the one people ask about, so here's the full deal.
+
+mysqlfs is a FUSE filesystem that stores files as rows in a MySQL database. I have a free HeatWave instance (50GB) doing nothing, so the experiment was: can MySQL be a (slow, weird) disk? I built mysqlfs v1.0.4 for ARM64 from [source](https://github.com/skeyby/mysqlfs), created a dedicated MySQL user with grants only on one database, and mounted it with a systemd service:
+
+```bash
+mysqlfs -oallow_other -odefault_permissions \
+  -ohost=10.0.1.170 -odatabase=mysqlfs -ouser=mysqlfs \
+  -obig_writes /mnt/mysqlfs
+```
+
+The credentials live in `/home/ubuntu/.my.cnf` with mode 600, and that file is the only place they exist — not in git, not in my notes, nowhere else.
+
+Measured performance: about 3MB/s on writes in my testing, with data surviving a remount byte-identical. It's slow. I would never keep anything I care about on it as the only copy, and I wouldn't run a database on it (a database on a filesystem on a database is where I draw the line). But for cold storage on storage that was otherwise idle, it's free real estate.
+
+The gotchas, for anyone else attempting this particular bad idea:
+
+- The mountpoint has to be empty and owned by the mounting user, or the mount just fails at you
+- You need `user_allow_other` in `/etc/fuse.conf` or the `allow_other` flag does nothing
+- Do not NFS-export a FUSE mount. The kernel does not enjoy that, and neither will you
+- Never use it as the sole copy of anything important. It's a MySQL database pretending to be a disk. Respect the bit.
+
+And yes, there's a third provisioner for it too: `local-path-mysqlfs`, same pattern, pointed at `/mnt/mysqlfs/k8s`. Three storage classes, three backends, one very confused little cluster:
 
 ![Storage on azamilab0](/assets/2026-15-10-shikata-slimdown/storage-arch.svg)
 
 *Diagram generated with AI assistance.*
 
-## Datadog on a diet, part two
+## What's next: a real backup tier
 
-A while later I looked at the in-cluster Datadog again and realized it was running a cluster agent. The cluster agent exists to fan out to many node agents and run cluster-level checks. I have one node. So I removed it — about 11 millicores and 140MB of RAM back, which on this box is real money. The DaemonSet stayed, since that's what does the container log collection and the vulnerability scanning that actually sends me useful emails.
+Here's the honest part: everything above is primary storage. What I haven't built yet is the second tier — actual backups that live outside the disks they're backing up. That's the actual important project, and half the reason I wired up the object storage in the first place.
 
-While I was in there I found two near-duplicate DatadogAgent configs in the git repo. Turns out one of them wasn't referenced by any Kustomization and had never been applied to the cluster at all — it was just sitting there, waiting to confuse future me. Deleted the orphan.
+The plan: a nightly Kubernetes CronJob that snapshots the local-path volumes and takes a `mysqldump` of the app database, then pushes everything encrypted and deduplicated into Object Storage. I'm leaning toward Kopia for this — it has zero idle footprint, which matters on a 2-vCPU box that's already busy, and it does encrypted, compressed, deduplicated snapshots with real retention policies. Something like 7 daily, 4 weekly, 3 monthly.
 
-![Where the savings came from](/assets/2026-15-10-shikata-slimdown/diet-savings.svg)
+Optionally, a weekly mirror of the bucket down to the NFS box, so there's a copy of the backups living entirely outside Oracle. Belt and suspenders.
 
-*Diagram generated with AI assistance.*
+![Planned backup tier](/assets/2026-15-10-shikata-slimdown/backup-tier.svg)
 
-## The Audiobookshelf scare
+*Diagram generated with AI assistance. Note: this is the plan, not built yet.*
 
-Somewhere in the middle of all this I found four Audiobookshelf PVCs stuck in Terminating since late September, with the pod still running and holding 2.2GB of data. If that pod had ever restarted, it would never have come back — you can't remount a Terminating PVC. Backed the data up from the running pod, deleted everything, recreated the PVCs, restored from backup. All fine in the end, but it was an unpleasant twenty minutes, and those PVCs are still not in git, which I should fix.
-
-## What's next
-
-The box is breathing again. Still to do: restart k3s when I'm home so the GC thresholds actually kick in, build the actual backup solution (the important one, and half the reason I wired up the object storage in the first place), and eventually write an Ansible playbook for all of this host config so it stops living exclusively in my head. That last one is a when-I'm-home project — I'm not testing a bootstrap playbook against the live box from a hotel room.
+That's the data story so far: a 200GB disk cap, three workarounds of increasing absurdity, and a backup tier that's still on the whiteboard. The MySQL-as-a-disk thing gets the most questions, but honestly the boring NFS export is the one doing the most work day to day. As usual.
