@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="470" viewBox="0 0 860 470" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <rect width="860" height="470" rx="12" fill="#1a1f2e"/>
+  <text x="430" y="38" text-anchor="middle" font-size="22" font-weight="600" fill="#dfe6f3">Planned backup tier</text>
+  <text x="430" y="60" text-anchor="middle" font-size="13" font-style="italic" fill="#6b7694">plan only — not built yet</text>
+
+  <!-- sources -->
+  <rect x="30" y="92" width="220" height="70" rx="8" fill="#232b3d" stroke="#7aa2f7" stroke-width="1.5"/>
+  <text x="140" y="118" text-anchor="middle" font-size="14" font-weight="600" fill="#dfe6f3">k3s local-path volumes</text>
+  <text x="140" y="140" text-anchor="middle" font-size="12.5" fill="#9aa7c2">~5 GB of PVC data</text>
+
+  <rect x="30" y="182" width="220" height="70" rx="8" fill="#232b3d" stroke="#7aa2f7" stroke-width="1.5"/>
+  <text x="140" y="208" text-anchor="middle" font-size="14" font-weight="600" fill="#dfe6f3">app database</text>
+  <text x="140" y="230" text-anchor="middle" font-size="12.5" fill="#9aa7c2">mysqldump --single-transaction</text>
+
+  <!-- arrows to job -->
+  <line x1="250" y1="127" x2="328" y2="152" stroke="#5a6a8a" stroke-width="1.5"/>
+  <polygon points="328,152 318,146 320,158" fill="#5a6a8a"/>
+  <line x1="250" y1="217" x2="328" y2="192" stroke="#5a6a8a" stroke-width="1.5"/>
+  <polygon points="328,192 318,186 320,198" fill="#5a6a8a"/>
+
+  <!-- cronjob -->
+  <rect x="330" y="112" width="200" height="128" rx="8" fill="#232b3d" stroke="#9ece6a" stroke-width="2"/>
+  <text x="430" y="140" text-anchor="middle" font-size="15" font-weight="600" fill="#9ece6a">nightly CronJob</text>
+  <text x="430" y="162" text-anchor="middle" font-size="12.5" fill="#9aa7c2">~03:00 America/Toronto</text>
+  <text x="430" y="186" text-anchor="middle" font-size="12.5" fill="#9aa7c2">Kopia snapshot</text>
+  <text x="430" y="208" text-anchor="middle" font-size="12.5" fill="#9aa7c2">encrypted · deduplicated</text>
+
+  <!-- arrow to bucket -->
+  <line x1="530" y1="176" x2="608" y2="176" stroke="#5a6a8a" stroke-width="1.5"/>
+  <polygon points="608,176 598,170 598,182" fill="#5a6a8a"/>
+
+  <!-- bucket -->
+  <rect x="610" y="112" width="220" height="128" rx="8" fill="#232b3d" stroke="#e0af68" stroke-width="2"/>
+  <text x="720" y="140" text-anchor="middle" font-size="15" font-weight="600" fill="#e0af68">OCI Object Storage</text>
+  <text x="720" y="162" text-anchor="middle" font-size="12.5" fill="#9aa7c2">BackupServerBucket</text>
+  <text x="720" y="186" text-anchor="middle" font-size="12.5" fill="#9aa7c2">retention: 7 daily,</text>
+  <text x="720" y="208" text-anchor="middle" font-size="12.5" fill="#9aa7c2">4 weekly, 3 monthly</text>
+
+  <!-- dashed optional mirror -->
+  <line x1="720" y1="240" x2="720" y2="298" stroke="#6b7694" stroke-width="1.5" stroke-dasharray="6,5"/>
+  <polygon points="720,298 713,288 727,288" fill="#6b7694"/>
+  <text x="740" y="272" font-size="12.5" font-style="italic" fill="#6b7694">weekly mirror (optional)</text>
+
+  <rect x="610" y="300" width="220" height="80" rx="8" fill="#232b3d" stroke="#6b7694" stroke-width="1.5" stroke-dasharray="6,5"/>
+  <text x="720" y="328" text-anchor="middle" font-size="14" font-weight="600" fill="#dfe6f3">NFS on shikatalab0</text>
+  <text x="720" y="350" text-anchor="middle" font-size="12.5" fill="#9aa7c2">a copy outside Oracle</text>
+
+  <text x="430" y="432" text-anchor="middle" font-size="12" font-style="italic" fill="#6b7694">Diagram generated with AI assistance.</text>
+</svg>
