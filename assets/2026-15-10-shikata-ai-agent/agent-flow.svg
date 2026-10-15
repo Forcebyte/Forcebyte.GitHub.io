@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="560" viewBox="0 0 860 560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <rect width="860" height="560" rx="12" fill="#1a1f2e"/>
+  <text x="430" y="38" text-anchor="middle" font-size="22" font-weight="600" fill="#dfe6f3">How the agent works on the homelab</text>
+
+  <!-- lane 1 label -->
+  <text x="30" y="72" font-size="12" font-weight="600" fill="#6b7694">CONTROL PATH</text>
+
+  <!-- phone -->
+  <rect x="30" y="84" width="130" height="62" rx="8" fill="#232b3d" stroke="#7aa2f7" stroke-width="1.5"/>
+  <text x="95" y="108" text-anchor="middle" font-size="14" font-weight="600" fill="#dfe6f3">Phone</text>
+  <text x="95" y="129" text-anchor="middle" font-size="12.5" fill="#9aa7c2">Seoul</text>
+
+  <!-- chat -->
+  <rect x="180" y="84" width="130" height="62" rx="8" fill="#232b3d" stroke="#7aa2f7" stroke-width="1.5"/>
+  <text x="245" y="108" text-anchor="middle" font-size="14" font-weight="600" fill="#dfe6f3">Muse chat</text>
+  <text x="245" y="129" text-anchor="middle" font-size="12.5" fill="#9aa7c2">plain messages</text>
+
+  <!-- agent instance -->
+  <rect x="330" y="84" width="240" height="62" rx="8" fill="#232b3d" stroke="#9ece6a" stroke-width="2"/>
+  <text x="450" y="108" text-anchor="middle" font-size="14" font-weight="600" fill="#9ece6a">Muse agent instance (Jett)</text>
+  <text x="450" y="129" text-anchor="middle" font-size="12.5" fill="#9aa7c2">tailnet node · 100.113.165.36</text>
+
+  <line x1="160" y1="115" x2="178" y2="115" stroke="#5a6a8a" stroke-width="1.5"/>
+  <polygon points="178,115 170,109 170,121" fill="#5a6a8a"/>
+  <line x1="310" y1="115" x2="328" y2="115" stroke="#5a6a8a" stroke-width="1.5"/>
+  <polygon points="328,115 320,109 320,121" fill="#5a6a8a"/>
+
+  <!-- tailscale band -->
+  <rect x="30" y="166" width="800" height="46" rx="8" fill="none" stroke="#6b7694" stroke-width="1.5" stroke-dasharray="7,5"/>
+  <text x="430" y="185" text-anchor="middle" font-size="13.5" font-weight="600" fill="#9aa7c2">Tailscale tailnet</text>
+  <text x="430" y="203" text-anchor="middle" font-size="12.5" fill="#6b7694">the agent instance is a node on the tailnet — SSH to the homelab goes over the tunnel</text>
+
+  <!-- lane 2 label -->
+  <text x="30" y="240" font-size="12" font-weight="600" fill="#6b7694">WORK HAPPENS HERE</text>
+
+  <!-- azamilab0 big box -->
+  <rect x="30" y="252" width="400" height="130" rx="8" fill="#232b3d" stroke="#7aa2f7" stroke-width="2"/>
+  <text x="230" y="278" text-anchor="middle" font-size="15" font-weight="600" fill="#7aa2f7">azamilab0 · 100.116.239.76</text>
+  <text x="230" y="300" text-anchor="middle" font-size="12.5" fill="#9aa7c2">OCI VM — the actual homelab box</text>
+  <line x1="50" y1="312" x2="410" y2="312" stroke="#3b4763" stroke-width="1"/>
+  <text x="60" y="332" font-size="13" fill="#dfe6f3">shell <tspan fill="#6b7694">— k3s, systemd, files, all over SSH</tspan></text>
+  <text x="60" y="356" font-size="13" fill="#dfe6f3">git <tspan fill="#6b7694">— branch → GPG-signed commit → push (deploy key lives here)</tspan></text>
+
+  <!-- diagonal arrow agent -> azamilab0 -->
+  <line x1="450" y1="146" x2="240" y2="250" stroke="#9ece6a" stroke-width="1.5"/>
+  <polygon points="240,250 232,240 244,240" fill="#9ece6a"/>
+  <text x="330" y="192" font-size="12" font-style="italic" fill="#9ece6a">SSH</text>
+
+  <!-- github -->
+  <rect x="470" y="252" width="140" height="130" rx="8" fill="#232b3d" stroke="#e0af68" stroke-width="1.5"/>
+  <text x="540" y="300" text-anchor="middle" font-size="14" font-weight="600" fill="#e0af68">GitHub</text>
+  <text x="540" y="322" text-anchor="middle" font-size="12.5" fill="#9aa7c2">pull request</text>
+  <text x="540" y="344" text-anchor="middle" font-size="12.5" fill="#9aa7c2">opened by agent</text>
+
+  <!-- merge -->
+  <rect x="630" y="252" width="200" height="130" rx="8" fill="#232b3d" stroke="#e0af68" stroke-width="1.5"/>
+  <text x="730" y="300" text-anchor="middle" font-size="14" font-weight="600" fill="#dfe6f3">Patrick merges</text>
+  <text x="730" y="322" text-anchor="middle" font-size="12.5" fill="#9aa7c2">from his phone</text>
+  <text x="730" y="344" text-anchor="middle" font-size="12.5" fill="#9aa7c2">main branch untouched by agent</text>
+
+  <line x1="430" y1="317" x2="468" y2="317" stroke="#5a6a8a" stroke-width="1.5"/>
+  <polygon points="468,317 460,311 460,323" fill="#5a6a8a"/>
+  <line x1="610" y1="317" x2="628" y2="317" stroke="#5a6a8a" stroke-width="1.5"/>
+  <polygon points="628,317 620,311 620,323" fill="#5a6a8a"/>
+
+  <!-- notes -->
+  <rect x="30" y="408" width="390" height="72" rx="8" fill="#232b3d" stroke="#6b7694" stroke-width="1" stroke-dasharray="6,5"/>
+  <text x="225" y="434" text-anchor="middle" font-size="13.5" font-weight="600" fill="#dfe6f3">Approval cards gate irreversible actions</text>
+  <text x="225" y="456" text-anchor="middle" font-size="12.5" fill="#9aa7c2">sends, merges, destructive commands</text>
+
+  <rect x="440" y="408" width="390" height="72" rx="8" fill="#232b3d" stroke="#6b7694" stroke-width="1" stroke-dasharray="6,5"/>
+  <text x="635" y="434" text-anchor="middle" font-size="13.5" font-weight="600" fill="#dfe6f3">Secrets via Secure Vault or on-box</text>
+  <text x="635" y="456" text-anchor="middle" font-size="12.5" fill="#9aa7c2">never in chat — keys are files, not pastes</text>
+
+  <text x="430" y="524" text-anchor="middle" font-size="12" font-style="italic" fill="#6b7694">Diagram generated with AI assistance.</text>
+</svg>
