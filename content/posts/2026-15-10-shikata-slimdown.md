@@ -95,7 +95,6 @@ Then the Kubernetes part. k3s ships a local-path provisioner that turns a host d
 
 ## Tier 3: the MySQL filesystem (the weird one)
 
-This is the one people ask about, so here's the full deal.
 
 mysqlfs is a FUSE filesystem that stores files as rows in a MySQL database. I have a free HeatWave instance (50GB) doing nothing, so the experiment was: can MySQL be a (slow, weird) disk? I built mysqlfs v1.0.4 for ARM64 from [source](https://github.com/skeyby/mysqlfs), created a dedicated MySQL user with grants only on one database, and mounted it with a systemd service:
 
