@@ -16,7 +16,7 @@ The short version: I chat with it like a person, and it has a computer. The slig
 
 The agent runs on its own Linux VM with a terminal, a real browser, and a pile of tools. With my approval it joined my Tailscale network, so it can SSH into my hosts over the tailnet the same way I do from my laptop. (There was some fun getting that working — the tunnel goes through a proxy, and its VM gets rebuilt often enough that the SSH config in `/root` keeps getting wiped. The durable copies live in its home directory now. Ask me how I know.)
 
-The git workflow is the whole trick. It works on branches, signs commits with a GPG key, pushes, and opens pull requests. It never touches main — that's my click, usually from my phone. Every change is a diff I can read before it lands. If I don't like it, it doesn't merge.
+The git workflow is the whole trick. It works on branches, signs commits with a GPG key, pushes, and opens pull requests. It never touches main — that's my click, usually from my phone. Every change is a diff I can read before it lands. If I don't like it, it doesn't merge. One detail worth knowing: all of that git work happens on azamilab0 itself. GitHub isn't reachable from the agent's own VM, so the agent drives git over SSH and the commits and pushes execute on the homelab box, using a deploy key that lives there.
 
 Secrets are handled properly, or at least as properly as this setup gets: anything sensitive goes through a secure vault flow or gets generated directly on my own machines. Nothing secret ever appears in chat. We learned that one the fun way, when a pasted GPG key got mangled by transcription and GitHub rejected it. Keys are files now, always. Never paste a key into a chat window. Ever.
 
@@ -48,7 +48,3 @@ Three things, honestly.
 **The mobile problem.** There is no good graphical layer for any of this on my phone. It's all chat. When the agent says "done, here's what changed," I'm taking its word plus the diff — so for anything I actually care about, I sanity-check it myself with Terminus over SSH from my phone. `kubectl get`, `systemctl status`, read the file it says it wrote. The agent is usually right, but "usually" is not a monitoring strategy, and typing kubectl on a phone keyboard is its own special misery.
 
 **The business risk.** At the end of the day this is Meta's service, and Meta can charge for it, throttle it, or shut it down, and then this whole workflow evaporates. C'est la vie. The hedge is the same as it's always been: everything the agent produces lands in git as a reviewable diff. If the service goes away tomorrow, I keep the homelab, the configs, and the runbooks. The agent is leverage, not load-bearing.
-
-## The takeaway
-
-The thing that made this work isn't the AI, it's the workflow: branch, signed commit, PR, human merges. The agent proposes; I dispose. Everything else — the Tailscale access, the approval cards, the secrets handling — is plumbing around that one idea. I'll keep an eye on the guardrails, keep Terminus handy, and keep everything in git. And if Meta pulls the plug — c'est la vie, the homelab remains.
