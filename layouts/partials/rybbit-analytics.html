@@ -1,0 +1,4 @@
+{{/* layouts/partials/rybbit-analytics.html */}}
+{{ if not .Site.IsServer }} {{/* Only include in production builds */}}
+  <script async defer src="https://rybbit.forcebyte.org/api/script.js" data-site-id="f3e1803f8b47"></script>
+{{ end }}
