@@ -44,13 +44,13 @@
   <polygon points="640,278 629,272 630,285" fill="#c62828"/>
 
   <!-- Alerts -->
-  <rect x="340" y="360" width="360" height="76" rx="10" fill="#f1eafd" stroke="#5e35b1" stroke-width="2"/>
+  <rect x="285" y="360" width="470" height="76" rx="10" fill="#f1eafd" stroke="#5e35b1" stroke-width="2"/>
   <text x="520" y="388" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#341d63">On any failure → Gotify + Discord</text>
   <text x="520" y="412" text-anchor="middle" font-size="12.5" fill="#341d63">Gotify lives on a separate VM — it still works if the cluster is down</text>
 
   <!-- dashed alert links -->
-  <path d="M 770 160 L 770 398 L 708 398" fill="none" stroke="#5e35b1" stroke-width="1.6" stroke-dasharray="6 4"/>
-  <polygon points="700,398 710,393 710,403" fill="#5e35b1"/>
+  <path d="M 770 160 L 770 398 L 763 398" fill="none" stroke="#5e35b1" stroke-width="1.6" stroke-dasharray="6 4"/>
+  <polygon points="755,398 765,393 765,403" fill="#5e35b1"/>
   <path d="M 440 280 L 440 352" fill="none" stroke="#5e35b1" stroke-width="1.6" stroke-dasharray="6 4"/>
   <polygon points="440,360 435,350 445,350" fill="#5e35b1"/>
 

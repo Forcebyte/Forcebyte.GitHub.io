@@ -48,10 +48,6 @@ The sharp edge: B2 keeps old *versions* of files by default. Restic constantly r
 
 ## MySQL: the clever idea that filled a database with its own diary
 
-![A stitched-together database in a Frankenstein lab, pages of log spilling out of it](/assets/2026-20-10-shikata-backups/mysql-frankenstein.jpg)
-
-*The database, journaling. Illustration generated with AI assistance.*
-
 The MySQL filesystem felt like the better target on paper. Fifty gigabytes! Already mounted! Transactions underneath!
 
 Here's what I failed to think through: a filesystem implemented in MySQL tables doesn't just store your writes — it *journals* them. MySQL's binary log records every change so it can be replayed later:
