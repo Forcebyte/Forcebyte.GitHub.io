@@ -35,11 +35,19 @@ spec:
               ]
 ```
 
+![Diagram of the old way: one CronJob fanning out restarts to every :latest deployment, including the game servers](../assets/2026-20-10-shikata-flux-images/before-flow.svg)
+
+*The old way. One cron job, every deployment, once a month.*
+
 The restart forced a fresh pull, the fresh pull got whatever `:latest` meant that night, and the pod came back updated. Simple. Also, on reflection, bad in three specific ways:
 
 - **Indiscriminate.** Everything restarted whether its image had changed or not — download stack, homepage, and game servers alike. A Minecraft server does not care that it's 12:01 AM on the 1st; its players do.
 - **No record.** Nothing in git changed, ever. "What version is the torrent client running?" had no answer beyond "whatever `latest` was on the 1st." No diff, no audit trail, nothing to revert if an update was bad — just restart again and hope `latest` had moved on.
 - **It fought GitOps.** A rollout restart works by stamping an annotation on the pod template. To Flux, that annotation is *drift* — something changed outside git — and Flux's job is to reconcile drift away. Mostly that just silently undid restarts. Once, it wedged a ClickHouse rollout entirely: the reconciled-away annotation left a RollingUpdate stuck mid-flight. My update mechanism and my deployment mechanism were in a turf war.
+
+![Diagram of the drift fight: kubectl rollout restart stamps an annotation, Flux removes it as drift, and the rollout wedges](../assets/2026-20-10-shikata-flux-images/drift-fight.svg)
+
+*Two systems, both working as designed, fighting over one annotation.*
 
 ## Now: the registry is watched, the update is a commit
 
@@ -91,6 +99,8 @@ That commit is the first one the bot ever made, and I won't pretend it came easy
 ## Granularity and windows
 
 This is the part the hammer could never do: **cadence is per image.**
+
+![Diagram of three cadences: app digests checked every 10 minutes, automation commits every 30 minutes, game server registries scanned weekly](../assets/2026-20-10-shikata-flux-images/cadence.svg)
 
 - The download/media stack — qBittorrent, Prowlarr, NZBGet, Audiobookshelf, the homepage, a few others — checks digests every **10 minutes**. These are apps I want current, and a restart is a shrug.
 - The game servers (Minecraft, CS2, and their shared rcon sidecar) scan on a **168-hour** interval. An update can only ever surface once a week, so a world never restarts mid-session because a modpack pushed a build on a Tuesday.

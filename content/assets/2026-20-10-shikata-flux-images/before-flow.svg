@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="400" viewBox="0 0 920 400" font-family="Verdana, Geneva, sans-serif">
+  <rect x="0" y="0" width="920" height="400" fill="#ffffff"/>
+
+  <!-- CronJob -->
+  <rect x="310" y="20" width="300" height="86" rx="10" fill="#fdeeee" stroke="#c62828" stroke-width="2"/>
+  <text x="460" y="48" text-anchor="middle" font-size="15" font-weight="bold" fill="#6d1212">CronJob: rollout-latest</text>
+  <text x="460" y="72" text-anchor="middle" font-size="12.5" fill="#6d1212">schedule: 0 0 1 * * — midnight, 1st of the month</text>
+  <text x="460" y="92" text-anchor="middle" font-size="12.5" fill="#6d1212">"restart anything tagged :latest"</text>
+
+  <!-- fan-out line -->
+  <line x1="460" y1="106" x2="460" y2="132" stroke="#c62828" stroke-width="2"/>
+  <line x1="80" y1="132" x2="840" y2="132" stroke="#c62828" stroke-width="2"/>
+  <line x1="80" y1="132" x2="80" y2="152" stroke="#c62828" stroke-width="2"/>
+  <line x1="272" y1="132" x2="272" y2="152" stroke="#c62828" stroke-width="2"/>
+  <line x1="464" y1="132" x2="464" y2="152" stroke="#c62828" stroke-width="2"/>
+  <line x1="656" y1="132" x2="656" y2="152" stroke="#c62828" stroke-width="2"/>
+  <line x1="840" y1="132" x2="840" y2="152" stroke="#c62828" stroke-width="2"/>
+  <polygon points="80,160 74,150 86,150" fill="#c62828"/>
+  <polygon points="272,160 266,150 278,150" fill="#c62828"/>
+  <polygon points="464,160 458,150 470,150" fill="#c62828"/>
+  <polygon points="656,160 650,150 662,150" fill="#c62828"/>
+  <polygon points="840,160 834,150 846,150" fill="#c62828"/>
+
+  <!-- deployments -->
+  <g font-size="12.5" fill="#333">
+    <rect x="15" y="162" width="130" height="86" rx="8" fill="#f4f4f4" stroke="#888" stroke-width="1.6"/>
+    <text x="80" y="190" text-anchor="middle" font-weight="bold">qBittorrent</text>
+    <text x="80" y="212" text-anchor="middle">restarted</text>
+    <text x="80" y="232" text-anchor="middle" font-size="11.5">changed or not</text>
+
+    <rect x="207" y="162" width="130" height="86" rx="8" fill="#f4f4f4" stroke="#888" stroke-width="1.6"/>
+    <text x="272" y="190" text-anchor="middle" font-weight="bold">Prowlarr</text>
+    <text x="272" y="212" text-anchor="middle">restarted</text>
+    <text x="272" y="232" text-anchor="middle" font-size="11.5">+ sleep 120s</text>
+
+    <rect x="399" y="162" width="130" height="86" rx="8" fill="#f4f4f4" stroke="#888" stroke-width="1.6"/>
+    <text x="464" y="190" text-anchor="middle" font-weight="bold">Homepage</text>
+    <text x="464" y="212" text-anchor="middle">restarted</text>
+    <text x="464" y="232" text-anchor="middle" font-size="11.5">+ sleep 120s</text>
+
+    <rect x="591" y="162" width="130" height="86" rx="8" fill="#fdeeee" stroke="#c62828" stroke-width="1.8"/>
+    <text x="656" y="190" text-anchor="middle" font-weight="bold" fill="#6d1212">Minecraft</text>
+    <text x="656" y="212" text-anchor="middle" fill="#6d1212">restarted</text>
+    <text x="656" y="232" text-anchor="middle" font-size="11.5" fill="#6d1212">mid-game, sorry</text>
+
+    <rect x="783" y="162" width="130" height="86" rx="8" fill="#fdeeee" stroke="#c62828" stroke-width="1.8"/>
+    <text x="848" y="190" text-anchor="middle" font-weight="bold" fill="#6d1212">CS2</text>
+    <text x="848" y="212" text-anchor="middle" fill="#6d1212">restarted</text>
+    <text x="848" y="232" text-anchor="middle" font-size="11.5" fill="#6d1212">+ sleep 120s</text>
+  </g>
+
+  <!-- consequences -->
+  <rect x="120" y="285" width="680" height="66" rx="10" fill="#ffffff" stroke="#c62828" stroke-width="1.6" stroke-dasharray="7 5"/>
+  <text x="460" y="312" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#6d1212">Nothing changes in git. No diff. No record. No way back.</text>
+  <text x="460" y="336" text-anchor="middle" font-size="12.5" fill="#6d1212">"What's running?" = whatever :latest happened to be that night.</text>
+
+  <text x="20" y="382" font-size="11.5" fill="#666">The 120-second naps were the blast-radius strategy. That was the whole strategy.</text>
+</svg>
