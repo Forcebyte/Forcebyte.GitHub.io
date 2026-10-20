@@ -62,7 +62,7 @@ mysql> SHOW GLOBAL VARIABLES WHERE Variable_name IN ('log_bin','binlog_expire_lo
 
 Restic is a worst-case client for this. A backup is thousands of tiny files: constant small writes, deletes, rewrites. Each one lands in the tables *and* in the binlog. The binlogs grew roughly ten times faster than the data they described, and an hour of expiry couldn't drain them. MySQL's own error log tells it plainly — the datadir filesystem filled to 91% (46,627,625,728 of 51,044,687,872 bytes), InnoDB started reporting low disk space, and then the instance declared itself out of space and went offline. This database also serves as a storage backend for live cluster workloads, so the blast radius was not theoretical. It happened twice, because the first time I diagnosed it as a fluke.
 
-![Chart: restic writes ~6 GB while MySQL disk usage climbs to 91% and dies; the hourly DB-only plan is flat](/assets/2026-20-10-shikata-backups/binlog-chart.png)
+![Chart: restic writes ~6 GB while MySQL disk usage climbs to 91% and dies; the hourly DB-only plan is flat](../assets/2026-20-10-shikata-backups/binlog-chart.png)
 
 *Reconstructed from the incident — 6 GB in, ~45 GB of disk gone. The shape is the point.*
 
@@ -74,7 +74,7 @@ Databases are wonderful things. Their change logs are not your friend when your 
 
 ## Where it landed
 
-![Diagram of the final backup design: Backrest pod snapshots /pvdata to B2 nightly and critical databases to the MySQL filesystem hourly, with failure alerts to Gotify and Discord](/assets/2026-20-10-shikata-backups/backup-flow.svg)
+![Diagram of the final backup design: Backrest pod snapshots /pvdata to B2 nightly and critical databases to the MySQL filesystem hourly, with failure alerts to Gotify and Discord](../assets/2026-20-10-shikata-backups/backup-flow.svg)
 
 *The final design. Everything important in two places, nothing important in one.*
 
