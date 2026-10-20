@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="380" viewBox="0 0 920 380" font-family="Verdana, Geneva, sans-serif">
+  <rect x="0" y="0" width="920" height="380" fill="#ffffff"/>
+
+  <!-- kubectl -->
+  <rect x="40" y="50" width="300" height="105" rx="10" fill="#eef4fb" stroke="#33679e" stroke-width="2"/>
+  <text x="190" y="78" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#1d3f5e">kubectl rollout restart</text>
+  <text x="190" y="102" text-anchor="middle" font-size="12.5" fill="#1d3f5e">stamps the pod template with</text>
+  <text x="190" y="124" text-anchor="middle" font-size="12" fill="#1d3f5e">kubectl.kubernetes.io/restartedAt</text>
+  <text x="190" y="143" text-anchor="middle" font-size="12.5" fill="#1d3f5e">so the pods cycle and re-pull</text>
+
+  <!-- flux -->
+  <rect x="580" y="50" width="300" height="105" rx="10" fill="#fdf3e3" stroke="#b97e1e" stroke-width="2"/>
+  <text x="730" y="78" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#6e4a08">Flux reconciler</text>
+  <text x="730" y="102" text-anchor="middle" font-size="12.5" fill="#6e4a08">compares cluster to git, sees the</text>
+  <text x="730" y="124" text-anchor="middle" font-size="12.5" fill="#6e4a08">annotation isn't in git: drift!</text>
+  <text x="730" y="143" text-anchor="middle" font-size="12.5" fill="#6e4a08">reconciles it away</text>
+
+  <!-- arrow kubectl -> flux -->
+  <path d="M 340 88 L 565 88" fill="none" stroke="#444" stroke-width="2"/>
+  <polygon points="572,88 562,82 562,94" fill="#444"/>
+  <text x="455" y="76" text-anchor="middle" font-size="12" fill="#444">template changed</text>
+  <!-- arrow flux -> kubectl (bottom) -->
+  <path d="M 580 128 L 355 128" fill="none" stroke="#c62828" stroke-width="2"/>
+  <polygon points="348,128 358,122 358,134" fill="#c62828"/>
+  <text x="465" y="150" text-anchor="middle" font-size="12" fill="#c62828">annotation removed mid-rollout</text>
+
+  <!-- result -->
+  <rect x="235" y="215" width="450" height="100" rx="10" fill="#fdeeee" stroke="#c62828" stroke-width="2"/>
+  <text x="460" y="243" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#6d1212">A RollingUpdate with its trigger deleted</text>
+  <text x="460" y="268" text-anchor="middle" font-size="12.5" fill="#6d1212">Usually: restart silently undone.</text>
+  <text x="460" y="290" text-anchor="middle" font-size="12.5" fill="#6d1212">Once (ClickHouse, Oct 17): the rollout wedged entirely.</text>
+
+  <path d="M 460 155 L 460 207" fill="none" stroke="#c62828" stroke-width="2" stroke-dasharray="6 4"/>
+  <polygon points="460,215 454,205 466,205" fill="#c62828"/>
+
+  <text x="20" y="356" font-size="11.5" fill="#666">Two controllers, both doing their jobs correctly, fighting over one annotation.</text>
+</svg>

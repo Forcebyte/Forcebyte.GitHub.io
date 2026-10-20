@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="450" viewBox="0 0 920 450" font-family="Verdana, Geneva, sans-serif">
+  <rect x="0" y="0" width="920" height="450" fill="#ffffff"/>
+
+  <!-- Registries -->
+  <rect x="20" y="150" width="200" height="115" rx="10" fill="#eef4fb" stroke="#33679e" stroke-width="2"/>
+  <text x="120" y="178" text-anchor="middle" font-size="15" font-weight="bold" fill="#1d3f5e">Registries</text>
+  <text x="120" y="202" text-anchor="middle" font-size="12.5" fill="#1d3f5e">Docker Hub · GHCR · lscr.io</text>
+  <text x="120" y="224" text-anchor="middle" font-size="12.5" fill="#1d3f5e">upstream pushes a new</text>
+  <text x="120" y="244" text-anchor="middle" font-size="12.5" fill="#1d3f5e">image behind :latest</text>
+
+  <!-- Reflector -->
+  <rect x="295" y="25" width="260" height="100" rx="10" fill="#eef4fb" stroke="#33679e" stroke-width="2"/>
+  <text x="425" y="52" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#1d3f5e">image-reflector-controller</text>
+  <text x="425" y="76" text-anchor="middle" font-size="12.5" fill="#1d3f5e">ImageRepository: scans the registry</text>
+  <text x="425" y="97" text-anchor="middle" font-size="12.5" fill="#1d3f5e">on its interval</text>
+
+  <!-- Policy -->
+  <rect x="295" y="165" width="260" height="105" rx="10" fill="#eef4fb" stroke="#33679e" stroke-width="2"/>
+  <text x="425" y="192" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#1d3f5e">ImagePolicy</text>
+  <text x="425" y="216" text-anchor="middle" font-size="12.5" fill="#1d3f5e">resolves :latest &#8594; current digest</text>
+  <text x="425" y="238" text-anchor="middle" font-size="12.5" fill="#1d3f5e">checks every 10m &#183; game servers 168h</text>
+  <text x="425" y="258" text-anchor="middle" font-size="11.5" fill="#1d3f5e">digestReflectionPolicy: Always</text>
+
+  <!-- Automation -->
+  <rect x="295" y="310" width="260" height="100" rx="10" fill="#fdf3e3" stroke="#b97e1e" stroke-width="2"/>
+  <text x="425" y="337" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#6e4a08">image-automation-controller</text>
+  <text x="425" y="361" text-anchor="middle" font-size="12.5" fill="#6e4a08">every 30m: rewrites the image line</text>
+  <text x="425" y="382" text-anchor="middle" font-size="12.5" fill="#6e4a08">where the $imagepolicy marker sits</text>
+  <text x="425" y="400" text-anchor="middle" font-size="11.5" fill="#6e4a08">and commits as fluxcdbot</text>
+
+  <!-- Git -->
+  <rect x="645" y="150" width="255" height="115" rx="10" fill="#e9f7ee" stroke="#2e7d32" stroke-width="2"/>
+  <text x="772" y="178" text-anchor="middle" font-size="15" font-weight="bold" fill="#1b4d20">git &#183; main</text>
+  <text x="772" y="202" text-anchor="middle" font-size="12.5" fill="#1b4d20">"Automated image update"</text>
+  <text x="772" y="224" text-anchor="middle" font-size="12" fill="#1b4d20">image: app:latest@sha256:581d68b2&#8230;</text>
+  <text x="772" y="246" text-anchor="middle" font-size="12.5" fill="#1b4d20">reviewable &#183; revertible</text>
+
+  <!-- Workloads -->
+  <rect x="645" y="320" width="255" height="90" rx="10" fill="#f1eafd" stroke="#5e35b1" stroke-width="2"/>
+  <text x="772" y="348" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#341d63">Workloads</text>
+  <text x="772" y="372" text-anchor="middle" font-size="12.5" fill="#341d63">Flux reconciles the commit;</text>
+  <text x="772" y="392" text-anchor="middle" font-size="12.5" fill="#341d63">pods roll to the pinned digest</text>
+
+  <!-- arrows -->
+  <path d="M 220 175 C 255 150, 255 95, 287 82" fill="none" stroke="#444" stroke-width="2"/>
+  <polygon points="295,80 284,76 286,88" fill="#444"/>
+  <line x1="425" y1="125" x2="425" y2="157" stroke="#444" stroke-width="2"/>
+  <polygon points="425,165 419,155 431,155" fill="#444"/>
+  <line x1="425" y1="270" x2="425" y2="302" stroke="#444" stroke-width="2"/>
+  <polygon points="425,310 419,300 431,300" fill="#444"/>
+  <path d="M 555 345 C 610 320, 605 260, 637 235" fill="none" stroke="#444" stroke-width="2"/>
+  <polygon points="645,232 633,230 637,242" fill="#444"/>
+  <line x1="772" y1="265" x2="772" y2="312" stroke="#444" stroke-width="2"/>
+  <polygon points="772,320 766,310 778,310" fill="#444"/>
+
+  <text x="20" y="432" font-size="11.5" fill="#666">No cronjob, no restart hammer: a registry push becomes a commit becomes a rollout.</text>
+</svg>
