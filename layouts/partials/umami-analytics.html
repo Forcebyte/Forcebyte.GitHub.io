@@ -1,0 +1,4 @@
+{{/* layouts/partials/umami-analytics.html */}}
+{{ if not .Site.IsServer }} {{/* Only include in production builds */}}
+  <script defer src="https://umami.forcebyte.org/script.js" data-website-id="6c80eab9-23de-45c4-bbc4-e3c3b305844d"></script>
+{{ end }}
